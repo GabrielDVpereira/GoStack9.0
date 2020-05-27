@@ -1,8 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 
 class User extends Model {
-  // método estático chamado automaticamente pelo sequelize
-  static init(sequelize) {
+  // método estático chamado pela clase de database em '../database/init' para iniciar a model com nossa tabela
+  static init(connection) {
     // init do 'Model'
     super.init(
       {
@@ -12,7 +12,7 @@ class User extends Model {
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
       },
-      { sequelize }
+      { sequelize: connection }
     );
   }
 }
