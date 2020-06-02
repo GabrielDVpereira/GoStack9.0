@@ -15,5 +15,9 @@ class UserController {
       return res.status(400).json({ error: error.message || error });
     }
   }
+
+  async update(req, res) {
+    return res.status(201).send();
+  }
 }
 export default new UserController();
