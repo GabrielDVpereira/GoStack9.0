@@ -17,7 +17,27 @@ class UserController {
   }
 
   async update(req, res) {
-    return res.status(201).send();
+    const { userId } = req;
+    const { email, oldPassword } = req.body;
+    try {
+      const user = await User.findByPk(userId); // find by primaryKey
+
+      if (email && email !== user.email) {
+        const emailExists = await User.findOne({ where: { email } });
+        if (emailExists)
+          throw new Error('This email is being used by another user');
+      }
+
+      if (oldPassword && !(await user.checkPassword(oldPassword))) {
+        throw new Error("Password doesn't match");
+      }
+
+      const { id, name, provider } = await user.update(req.body);
+
+      return res.json({ id, name, email, provider });
+    } catch (error) {
+      return res.status(400).json({ error: error.message || error });
+    }
   }
 }
 export default new UserController();
