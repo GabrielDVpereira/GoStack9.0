@@ -1,0 +1,13 @@
+{
+  "dialect": "postgres",
+  "host": "localhost",
+  "username": "posgres",
+  "password": "docker",
+  "database": "fast_feet",
+  "define": {
+    "timestamps": true,
+    "underscored": true,
+    "underscoredAll": true
+  }
+}
+
