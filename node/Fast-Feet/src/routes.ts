@@ -1,8 +1,8 @@
 import express from 'express';
-import UserControler from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = express.Router();
 
-routes.get('/', UserControler.index);
+routes.post('/auth', SessionController.auth);
 
 export default routes;
