@@ -29,8 +29,10 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    camelcase: "off",
+    "no-unused-vars": ["error", { argsIgnorePattern: "next" }],
   },
   settings: {
     'import/resolver': {

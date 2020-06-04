@@ -1,8 +1,7 @@
-import express, { Request, Response } from 'express';
-
+import express from 'express';
 
 const routes = express.Router();
 
-routes.get('/', (req: Request, res: Response) => res.send('teste'));
+routes.get('/', (req, res) => res.send('teste'));
 
 export default routes;
