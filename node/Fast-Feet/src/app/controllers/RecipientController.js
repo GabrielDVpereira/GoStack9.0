@@ -23,18 +23,32 @@ class RecipientsController {
         id, name, street, complement, number, state, city, cep,
       });
 
-      return res.status(201).send();
+      return res.status(201).json({
+        id, name, street, complement, number, state, city, cep,
+      });
     } catch (error) {
       return res.status(400).json({ error: error.message || error });
     }
   }
 
-  async update() {
-
+  async update(req, res) {
+    const { id } = req.params;
+    try {
+      await Recipient.update(req.body, { where: { id } });
+      return res.status(204).send();
+    } catch (error) {
+      return res.status(400).json({ error: error.message || error });
+    }
   }
 
-  async destroy() {
-
+  async destroy(req, res) {
+    const { id } = req.params;
+    try {
+      await Recipient.destroy({ where: { id } });
+      return res.status(204).send();
+    } catch (error) {
+      return res.status(400).send();
+    }
   }
 }
 
