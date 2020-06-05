@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 export default async function auth(req, res, next) {
   try {
     const token = req.headers['x-auth-token'];
-    console.log(req.headers);
     if (!token) throw new Error('No token found');
 
     await jwt.verify(token, process.env.PRIVATE_KEY);

@@ -8,9 +8,9 @@ const routes = express.Router();
 
 routes.post('/auth', ValidationMiddleware.auth, SessionController.auth);
 routes.use(AuthMiddleware);
-routes.post('/recipient', RecipientController.create);
+routes.post('/recipient', ValidationMiddleware.createRecipient, RecipientController.create);
 routes.get('/recipient', RecipientController.index);
-routes.put('/recipient/:id', RecipientController.update);
+routes.put('/recipient/:id', ValidationMiddleware.createRecipient, RecipientController.update);
 routes.delete('/recipient/:id', RecipientController.destroy);
 
 export default routes;
