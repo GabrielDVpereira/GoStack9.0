@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Appointmens extends Model {
+class Appointments extends Model {
   // método estático chamado pela clase de database em '../database/init' para iniciar a model com nossa tabela
   static init(connection) {
     // init do 'Model'
@@ -23,4 +23,4 @@ class Appointmens extends Model {
   }
 }
 
-export default Appointmens;
+export default Appointments;
