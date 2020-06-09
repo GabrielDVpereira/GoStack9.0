@@ -15,8 +15,8 @@ class Database {
   init() {
     this.connection = new Sequelize(databaseConfig); // realizando a conexão do sequelize com o database
     models
-      .forEach((model) => model.init(this.connection))
-      .forEach(
+      .map((model) => model.init(this.connection))
+      .map(
         (model) => model.associate && model.associate(this.connection.models)
       ); // informando ao model qual conexão criamos e passamos para seu médoto init
   }

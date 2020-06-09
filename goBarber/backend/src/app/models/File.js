@@ -9,11 +9,18 @@ class File extends Model {
         // envia as colunas que serão inseridas pelo usuário
         name: Sequelize.STRING,
         path: Sequelize.STRING,
+        url: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return `http://localhost:5555/files/${this.path}`;
+          },
+        },
       },
       { sequelize: connection }
     );
 
     // hooks são trechos de código executado a cada interação com nosso model (create, find ...);
+    return this;
   }
 }
 
