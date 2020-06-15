@@ -51,6 +51,12 @@ class AppointmentController {
     /**
      * Create an apointment
      */
+
+    if (req.userId === provider_id)
+      return res
+        .status(400)
+        .json({ error: 'You cannot make an appointment with yourself' });
+
     const appointment = await Appointments.create({
       user_id: req.userId,
       provider_id,
