@@ -2,8 +2,6 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
 class SessionController {
-  constructor() {}
-
   async store(req, res) {
     const { email, password } = req.body;
 

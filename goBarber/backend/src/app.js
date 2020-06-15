@@ -1,9 +1,10 @@
+import 'dotenv/config';
+
 import express from 'express';
-import routes from './routes';
 import path from 'path';
+import routes from './routes';
 import './database';
 // Já vai iniciar o database
-import 'dotenv/config';
 
 class App {
   constructor() {
