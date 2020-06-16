@@ -1,10 +1,10 @@
 // conexão com db e carregar model
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import File from '../app/models/File';
 import Appointments from '../app/models/Appointments';
-import mongoose from 'mongoose';
 
 const models = [User, File, Appointments];
 
