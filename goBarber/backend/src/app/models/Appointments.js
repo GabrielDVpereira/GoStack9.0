@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import { isBefore, subHours } from 'date-fns';
 
 class Appointments extends Model {
   // método estático chamado pela clase de database em '../database/init' para iniciar a model com nossa tabela
@@ -9,6 +10,18 @@ class Appointments extends Model {
         // envia as colunas que serão inseridas pelo usuário
         date: Sequelize.DATE,
         canceled_at: Sequelize.DATE,
+        past: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return isBefore(this.date, new Date());
+          },
+        },
+        cancelable: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return isBefore(new Date(), subHours(this.date, 2));
+          },
+        },
       },
       { sequelize: connection }
     );
