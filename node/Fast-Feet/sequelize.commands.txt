@@ -1,0 +1,9 @@
+Creating a migration
+  -yarn sequelize migration:create --name <name>
+
+Running a migration
+  -yarn sequelize db:migrate
+
+undoing a migration
+  -yarn sequelize db:migrate:undo (undo the latest)
+  -yarn sequelize db:migrate:undo (undo all of them)
