@@ -1,4 +1,5 @@
 import express from 'express';
+import { resolve } from 'path';
 import routes from './routes';
 import meta from './app/middlewares/meta';
 import './database';
@@ -14,6 +15,7 @@ class App {
 
   middlewares() {
     this.app.use(meta);
+    this.app.use('/files', express.static(resolve(__dirname, '..', 'tmp', 'uploads')));
   }
 
   routes() {
