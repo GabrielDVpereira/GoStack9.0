@@ -20,7 +20,7 @@ routes.delete('/recipient/:id', RecipientController.destroy);
 
 routes.post('/files', upload.single('file'), FileController.create);
 routes.get('/deliveryman', DeliverymanController.index);
-routes.post('/deliveryman', DeliverymanController.create);
+routes.post('/deliveryman', ValidationMiddleware.createDeliveryman, DeliverymanController.create);
 routes.put('/deliveryman/:id', DeliverymanController.update);
 routes.delete('/deliveryman/:id', DeliverymanController.destroy);
 

@@ -23,6 +23,10 @@ const validate = {
     city: Joi.string(),
     cep: Joi.string().min(8).max(8),
   }),
+  createDeliveryman: Joi.object({
+    name: Joi.string().min(5).max(30).required(),
+    email: Joi.string().required().email(),
+  }),
 };
 
 export default validate;

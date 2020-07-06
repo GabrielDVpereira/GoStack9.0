@@ -1,13 +1,14 @@
 import Deliveryman from '../models/Deliveryman';
+import File from '../models/File';
 import generateId from '../../utils/generateRandomId';
 
 class DeliveryController {
   async create(req, res) {
     const { email } = req.body;
-    const isEmailAvailable = await Deliveryman.findOne({ where: { email } });
+    const emailUsed = await Deliveryman.findOne({ where: { email } });
 
 
-    if (isEmailAvailable === false) return res.status(400).json({ message: 'This email is alredy in use' });
+    if (emailUsed) return res.status(400).json({ message: 'This email is alredy in use' });
 
     const id = generateId();
     const deliveryman = await Deliveryman.create({ id, ...req.body });
@@ -15,7 +16,15 @@ class DeliveryController {
   }
 
   async index(req, res) {
-    const deliverymen = await Deliveryman.findAll();
+    const deliverymen = await Deliveryman.findAll({
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
     return res.json(deliverymen);
   }
 
@@ -35,8 +44,8 @@ class DeliveryController {
     const { id } = req.params;
     const deliveryman = await Deliveryman.findByPk(id);
     if (email && email !== deliveryman.email) {
-      const isEmailAvailable = await Deliveryman.findOne({ where: { email } });
-      if (isEmailAvailable) return res.status(400).json({ message: 'This email is alredy in use' });
+      const emailUsed = await Deliveryman.findOne({ where: { email } });
+      if (emailUsed) return res.status(400).json({ message: 'This email is alredy in use' });
     }
 
     await deliveryman.update(req.body);

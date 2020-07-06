@@ -27,6 +27,15 @@ class ValidationMiddleware {
       return res.status(400).json({ error: error.message || error });
     }
   }
+
+  async createDeliveryman(req, res, next) {
+    try {
+      await validationSchema.createDeliveryman.validateAsync(req.body);
+      return next();
+    } catch (error) {
+      return res.status(400).json({ error: error.message || error });
+    }
+  }
 }
 
 export default new ValidationMiddleware();
