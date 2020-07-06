@@ -6,16 +6,23 @@ import ValidationMiddleware from './app/middlewares/validateFields';
 import AuthMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
 import FileController from './app/controllers/FileController';
+import DeliverymanController from './app/controllers/DeliveryController';
 
 const upload = multer(multerConfig);
 const routes = express.Router();
 
 routes.post('/auth', ValidationMiddleware.auth, SessionController.auth);
-routes.post('/files', upload.single('file'), FileController.store);
 routes.use(AuthMiddleware);
 routes.post('/recipient', ValidationMiddleware.createRecipient, RecipientController.create);
 routes.get('/recipient', RecipientController.index);
 routes.put('/recipient/:id', ValidationMiddleware.createRecipient, RecipientController.update);
 routes.delete('/recipient/:id', RecipientController.destroy);
+
+routes.post('/files', upload.single('file'), FileController.create);
+routes.get('/deliveryman', DeliverymanController.index);
+routes.post('/deliveryman', DeliverymanController.create);
+routes.put('/deliveryman/:id', DeliverymanController.update);
+routes.delete('/deliveryman/:id', DeliverymanController.destroy);
+
 
 export default routes;
