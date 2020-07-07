@@ -7,6 +7,7 @@ import AuthMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliveryController';
+import PackageController from './app/controllers/PackageController';
 
 const upload = multer(multerConfig);
 const routes = express.Router();
@@ -24,5 +25,5 @@ routes.post('/deliveryman', ValidationMiddleware.createDeliveryman, DeliverymanC
 routes.put('/deliveryman/:id', DeliverymanController.update);
 routes.delete('/deliveryman/:id', DeliverymanController.destroy);
 
-
+routes.post('/package', PackageController.create);
 export default routes;
