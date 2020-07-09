@@ -27,4 +27,6 @@ routes.delete('/deliveryman/:id', DeliverymanController.destroy);
 
 routes.post('/package', PackageController.create);
 routes.get('/package', PackageController.index);
+routes.put('/package/:id', PackageController.update);
+routes.delete('/package/:id', PackageController.delete);
 export default routes;

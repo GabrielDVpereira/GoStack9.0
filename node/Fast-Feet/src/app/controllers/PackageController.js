@@ -29,11 +29,26 @@ class PackageController {
   }
 
   async update(req, res) {
+    const { id } = req.params;
 
+    const pack = await Package.findByPk(id);
+
+    if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
+
+    await pack.update(req.body);
+
+    return res.status(201).send();
   }
 
-  async delete() {
+  async delete(req, res) {
+    const { id } = req.params;
 
+    const pack = await Package.findByPk(id);
+    if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
+
+    await pack.destroy();
+
+    return res.status(201).send();
   }
 
   async delivery(req, res) {
