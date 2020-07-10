@@ -1,5 +1,4 @@
 import Recipient from '../models/Recipient';
-import generateRandomId from '../../utils/generateRandomId';
 
 class RecipientsController {
   async index(req, res) {
@@ -18,14 +17,11 @@ class RecipientsController {
         name, street, complement, number, state, city, cep,
       } = req.body;
 
-      const id = generateRandomId();
-      await Recipient.create({
-        id, name, street, complement, number, state, city, cep,
+      const recipient = await Recipient.create({
+        name, street, complement, number, state, city, cep,
       });
 
-      return res.status(201).json({
-        id, name, street, complement, number, state, city, cep,
-      });
+      return res.status(201).json(recipient);
     } catch (error) {
       return res.status(400).json({ error: error.message || error });
     }

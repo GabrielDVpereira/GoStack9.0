@@ -27,6 +27,18 @@ const validate = {
     name: Joi.string().min(5).max(30).required(),
     email: Joi.string().required().email(),
   }),
+  createPackage: Joi.object({
+    product: Joi.string().min(1).max(50).required(),
+    recipient_id: Joi.number().required(),
+    deliveryman_id: Joi.number().required(),
+    signature_id: Joi.number(),
+  }),
+  updatePackage: Joi.object({
+    product: Joi.string().min(1).max(50),
+    recipient_id: Joi.number(),
+    deliveryman_id: Joi.number(),
+    signature_id: Joi.number(),
+  }),
 };
 
 export default validate;

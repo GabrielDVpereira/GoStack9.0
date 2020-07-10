@@ -25,8 +25,11 @@ routes.post('/deliveryman', ValidationMiddleware.createDeliveryman, DeliverymanC
 routes.put('/deliveryman/:id', DeliverymanController.update);
 routes.delete('/deliveryman/:id', DeliverymanController.destroy);
 
-routes.post('/package', PackageController.create);
+routes.post('/package', ValidationMiddleware.createPackage, PackageController.create);
 routes.get('/package', PackageController.index);
-routes.put('/package/:id', PackageController.update);
+routes.put('/package/:id', ValidationMiddleware.updatePackage, PackageController.update);
 routes.delete('/package/:id', PackageController.delete);
+routes.put('/package/deliver/:id', PackageController.delivery);
+routes.put('/package/conclude/:id', PackageController.concludeDelivery);
+
 export default routes;

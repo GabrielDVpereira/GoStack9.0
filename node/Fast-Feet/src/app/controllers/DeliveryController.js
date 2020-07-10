@@ -1,17 +1,13 @@
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
-import generateId from '../../utils/generateRandomId';
 
 class DeliveryController {
   async create(req, res) {
     const { email } = req.body;
     const emailUsed = await Deliveryman.findOne({ where: { email } });
-
-
     if (emailUsed) return res.status(400).json({ message: 'This email is alredy in use' });
 
-    const id = generateId();
-    const deliveryman = await Deliveryman.create({ id, ...req.body });
+    const deliveryman = await Deliveryman.create(req.body);
     return res.json(deliveryman);
   }
 

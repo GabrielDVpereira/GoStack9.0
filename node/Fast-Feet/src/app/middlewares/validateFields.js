@@ -36,6 +36,24 @@ class ValidationMiddleware {
       return res.status(400).json({ error: error.message || error });
     }
   }
+
+  async createPackage(req, res, next) {
+    try {
+      await validationSchema.createPackage.validateAsync(req.body);
+      return next();
+    } catch (error) {
+      return res.status(400).json({ error: error.message || error });
+    }
+  }
+
+  async updatePackage(req, res, next) {
+    try {
+      await validationSchema.updatePackage.validateAsync(req.body);
+      return next();
+    } catch (error) {
+      return res.status(400).json({ error: error.message || error });
+    }
+  }
 }
 
 export default new ValidationMiddleware();

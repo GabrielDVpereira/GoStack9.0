@@ -1,19 +1,20 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('packages', {
     id: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
     },
     recipient_id: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       references: { model: 'recipients', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
       allowNull: false,
     },
     deliveryman_id: {
-      type: Sequelize.STRING,
+      type: Sequelize.INTEGER,
       references: { model: 'deliverymans', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
