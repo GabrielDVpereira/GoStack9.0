@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export default {
   host: process.env.MAIL_HOST,
   post: process.env.MAIL_PORT,

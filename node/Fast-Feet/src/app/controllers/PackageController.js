@@ -2,10 +2,26 @@ import moment from 'moment-timezone';
 import Package from '../models/Package';
 import Deliveryamn from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
+import Mail from '../ExternalServices/Mail';
 
 class PackageController {
   async create(req, res) {
+    const { deliveryman_id, recipient_id } = req.body;
+
+    const deliveryman = await Deliveryamn.findByPk(deliveryman_id);
+    if (!deliveryman) return res.status(400).json({ message: "there's no deliveryman registered for this id" });
+
+    const recipient = await Recipient.findByPk(recipient_id);
+    if (!recipient) return res.status(400).json({ message: "There's no recipient for this email address" });
+
     const pack = await Package.create(req.body);
+
+    await Mail.sendMail({
+      to: `${deliveryman.name} <${deliveryman.email}>`,
+      subject: 'New package',
+      text: 'A new package was registered in your name',
+    });
+
     return res.json(pack);
   }
 
