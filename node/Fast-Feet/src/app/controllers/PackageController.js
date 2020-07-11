@@ -19,7 +19,14 @@ class PackageController {
     await Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,
       subject: 'New package',
-      text: 'A new package was registered in your name',
+      template: 'newPackage',
+      context: {
+        daliveryman: deliveryman.name,
+        recipient: recipient.name,
+        recipient_address: `number ${recipient.number} ${recipient.street}, ${recipient.city}-${recipient.state}`,
+        recipient_cep: recipient.cep,
+        date: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY - HH:mm'),
+      },
     });
 
     return res.json(pack);
