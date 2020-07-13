@@ -2,7 +2,8 @@ import moment from 'moment-timezone';
 import Package from '../models/Package';
 import Deliveryamn from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
-import Mail from '../ExternalServices/Mail';
+import NewPackageJob from '../Jobs/NewPackage';
+import Queue from '../ExternalServices/Queue';
 
 class PackageController {
   async create(req, res) {
@@ -16,18 +17,8 @@ class PackageController {
 
     const pack = await Package.create(req.body);
 
-    await Mail.sendMail({
-      to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: 'New package',
-      template: 'newPackage',
-      context: {
-        daliveryman: deliveryman.name,
-        recipient: recipient.name,
-        recipient_address: `number ${recipient.number} ${recipient.street}, ${recipient.city}-${recipient.state}`,
-        recipient_cep: recipient.cep,
-        date: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY - HH:mm'),
-      },
-    });
+
+    await Queue.add(NewPackageJob.key, { deliveryman, recipient });
 
     return res.json(pack);
   }

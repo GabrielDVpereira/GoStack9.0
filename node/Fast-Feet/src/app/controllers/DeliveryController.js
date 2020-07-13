@@ -28,7 +28,7 @@ class DeliveryController {
     const { id } = req.params;
     const deliveryman = await Deliveryman.findByPk(id);
 
-    if (deliveryman === false) return res.status(404).json({ message: 'this deliveryman is not registered' });
+    if (!deliveryman) return res.status(404).json({ message: 'this deliveryman is not registered' });
 
     await deliveryman.destroy();
 
