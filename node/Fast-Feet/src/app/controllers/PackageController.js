@@ -1,9 +1,11 @@
 import moment from 'moment-timezone';
+import { Op } from 'sequelize';
 import Package from '../models/Package';
 import Deliveryamn from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import NewPackageJob from '../Jobs/NewPackage';
 import Queue from '../ExternalServices/Queue';
+
 
 class PackageController {
   async create(req, res) {
@@ -71,15 +73,30 @@ class PackageController {
     if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
 
     const start_date = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm');
-    const finalTimePermited = moment(start_date).format('YYYY-MM-DDT18:00');
+    const finalTimePermited = moment().format('YYYY-MM-DDT18:00');
     const initialTimePermited = moment().format('YYYY-MM-DDT8:00');
 
-    if (start_date < initialTimePermited || start_date > finalTimePermited) {
-      res.status(400).json({ message: 'Packages can be deliveryed only from 8:00 to 18:00 ' });
+    if (start_date < initialTimePermited && start_date > finalTimePermited) {
+      res.status(400).json({ message: 'Packages can be deliveryed only from 8:00 to 18:00' });
     }
 
+    const { deliveryman_id } = pack;
+    const deliverymanPackages = await Package.findAll({
+      where: {
+        deliveryman_id,
+        start_date: {
+          [Op.between]: [initialTimePermited, finalTimePermited],
+        },
+      },
+    });
+
+    if (deliverymanPackages.lenght >= 5) {
+      return res.status(400).json({ message: 'You can only delivery 5 packages a day' });
+    }
+
+
     await pack.update({ start_date });
-    return res.status(201).send();
+    return res.status(201).send({ deliverymanPackages });
   }
 
   async concludeDelivery(req, res) {
@@ -89,7 +106,7 @@ class PackageController {
     if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
 
     const end_date = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm');
-    await pack.update({ end_date });
+    await pack.update({ end_date, ...req.body });
     return res.status(201).send();
   }
 }
