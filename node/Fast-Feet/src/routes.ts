@@ -23,6 +23,7 @@ routes.post('/files', upload.single('file'), FileController.create);
 routes.get('/deliveryman', DeliverymanController.index);
 routes.post('/deliveryman', ValidationMiddleware.createDeliveryman, DeliverymanController.create);
 routes.put('/deliveryman/:id', DeliverymanController.update);
+routes.get('/deliveryman/:id/deliveries', DeliverymanController.deliverymanPackages);
 routes.delete('/deliveryman/:id', DeliverymanController.destroy);
 
 routes.post('/package', ValidationMiddleware.createPackage, PackageController.create);

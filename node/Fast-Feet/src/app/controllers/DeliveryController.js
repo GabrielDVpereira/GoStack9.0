@@ -1,4 +1,5 @@
 import Deliveryman from '../models/Deliveryman';
+import Package from '../models/Package';
 import File from '../models/File';
 
 class DeliveryController {
@@ -46,6 +47,20 @@ class DeliveryController {
 
     await deliveryman.update(req.body);
     return res.status(201).send();
+  }
+
+  async deliverymanPackages(req, res) {
+    const { id } = req.params;
+    const { status } = req.query;
+    let packages = await Package.findAll({ where: { deliveryman_id: id } });
+
+    if (status === 'finish') {
+      packages = packages.filter((pack) => pack.end_date !== null);
+    } else {
+      packages = packages.filter((pack) => !(pack.canceled_at && pack.end_date));
+    }
+
+    return res.json(packages);
   }
 }
 
