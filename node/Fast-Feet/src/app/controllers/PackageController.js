@@ -18,7 +18,7 @@ class PackageController {
     const pack = await Package.create(req.body);
 
 
-    await Queue.add(NewPackageJob.key, { deliveryman, recipient });
+    await Queue.add(NewPackageJob.jobKey, { deliveryman, recipient });
 
     return res.json(pack);
   }

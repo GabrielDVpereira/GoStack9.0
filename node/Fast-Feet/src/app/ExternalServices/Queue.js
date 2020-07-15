@@ -12,6 +12,7 @@ class Queue {
 
   init() {
     jobs.forEach(({ jobKey, jobAction }) => {
+      
       this.queues[jobKey] = {
         bee: new Bee(jobKey, { redis: redisConfig }),
         jobAction,
@@ -20,6 +21,7 @@ class Queue {
   }
 
   add(jobKey, jobInfo) {
+    console.log(jobKey, jobInfo)
     return this.queues[jobKey].bee.createJob(jobInfo).save();
   }
 
