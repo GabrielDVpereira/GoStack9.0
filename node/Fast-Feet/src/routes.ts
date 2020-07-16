@@ -31,6 +31,6 @@ routes.get('/package', PackageController.index);
 routes.put('/package/:id', ValidationMiddleware.updatePackage, PackageController.update);
 routes.delete('/package/:id', PackageController.delete);
 routes.put('/package/deliver/:id', PackageController.delivery);
-routes.put('/package/conclude/:id', PackageController.concludeDelivery);
+routes.put('/package/conclude/:id', ValidationMiddleware.concludeDelivery, PackageController.concludeDelivery);
 
 export default routes;

@@ -39,6 +39,9 @@ const validate = {
     deliveryman_id: Joi.number(),
     signature_id: Joi.number(),
   }),
+  concludeDelivery: Joi.object({
+    signature_id: Joi.number().required(),
+  }),
 };
 
 export default validate;

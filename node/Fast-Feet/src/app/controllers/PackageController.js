@@ -5,6 +5,7 @@ import Deliveryamn from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import NewPackageJob from '../Jobs/NewPackage';
 import Queue from '../ExternalServices/Queue';
+import File from '../models/File';
 
 
 class PackageController {
@@ -100,6 +101,10 @@ class PackageController {
 
   async concludeDelivery(req, res) {
     const { id } = req.params;
+    const { signature_id } = req.body;
+
+    const signature = await File.findByPk(signature_id);
+    if (!signature) return res.status(404).json({ message: 'No signature with this id found' });
 
     const pack = await Package.findByPk(id);
     if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
