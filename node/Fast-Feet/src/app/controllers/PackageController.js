@@ -73,8 +73,8 @@ class PackageController {
     if (!pack) return res.status(404).json({ message: 'A package with this id doesnt exist' });
 
     const start_date = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm');
-    const finalTimePermited = moment().format('YYYY-MM-DDT18:00');
-    const initialTimePermited = moment().format('YYYY-MM-DDT8:00');
+    const finalTimePermited = moment().format('YYYY-MM-DDT18:00:00');
+    const initialTimePermited = moment().format('YYYY-MM-DDT08:00:00');
 
     if (start_date < initialTimePermited && start_date > finalTimePermited) {
       res.status(400).json({ message: 'Packages can be deliveryed only from 8:00 to 18:00' });
@@ -89,14 +89,13 @@ class PackageController {
         },
       },
     });
-
-    if (deliverymanPackages.lenght >= 5) {
+    if (deliverymanPackages.length >= 5) {
       return res.status(400).json({ message: 'You can only delivery 5 packages a day' });
     }
 
 
     await pack.update({ start_date });
-    return res.status(201).send({ deliverymanPackages });
+    return res.status(201).send();
   }
 
   async concludeDelivery(req, res) {
