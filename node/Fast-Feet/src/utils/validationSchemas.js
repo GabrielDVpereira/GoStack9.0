@@ -42,6 +42,9 @@ const validate = {
   concludeDelivery: Joi.object({
     signature_id: Joi.number().required(),
   }),
+  newPackageProblem: Joi.object({
+    description: Joi.string().required(),
+  }),
 };
 
 export default validate;
