@@ -1,8 +1,9 @@
 import Bee from 'bee-queue';
 import NewPackge from '../Jobs/NewPackage';
+import CancelPackage from '../Jobs/CancelPackage';
 import redisConfig from '../../config/redis';
 
-const jobs = [NewPackge];
+const jobs = [NewPackge, CancelPackage];
 
 class Queue {
   constructor() {
@@ -12,7 +13,6 @@ class Queue {
 
   init() {
     jobs.forEach(({ jobKey, jobAction }) => {
-      
       this.queues[jobKey] = {
         bee: new Bee(jobKey, { redis: redisConfig }),
         jobAction,
@@ -21,7 +21,7 @@ class Queue {
   }
 
   add(jobKey, jobInfo) {
-    console.log(jobKey, jobInfo)
+    console.log(jobKey, jobInfo);
     return this.queues[jobKey].bee.createJob(jobInfo).save();
   }
 
@@ -39,7 +39,7 @@ class Queue {
   }
 
   onSuccess(successResponse) {
-    console.log(`Received result for job ${successResponse.id}: ${successResponse}`);
+    console.log(`Received result for job ${successResponse.id}`);
   }
 }
 

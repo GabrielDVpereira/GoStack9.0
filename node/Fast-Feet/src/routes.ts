@@ -8,6 +8,7 @@ import multerConfig from './config/multer';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliveryController';
 import PackageController from './app/controllers/PackageController';
+import DeliveryProblemsController from './app/controllers/DeliveryProblems';
 
 const upload = multer(multerConfig);
 const routes = express.Router();
@@ -32,5 +33,11 @@ routes.put('/package/:id', ValidationMiddleware.updatePackage, PackageController
 routes.delete('/package/:id', PackageController.delete);
 routes.put('/package/deliver/:id', PackageController.delivery);
 routes.put('/package/conclude/:id', ValidationMiddleware.concludeDelivery, PackageController.concludeDelivery);
+
+
+routes.post('/package/:package_id/problems', DeliveryProblemsController.create);
+routes.get('/package/:package_id/problems', DeliveryProblemsController.indexByPackage);
+routes.get('/package/problems', DeliveryProblemsController.index);
+routes.delete('/problems/:delivery_problem_id/cancel-package', DeliveryProblemsController.cancelPackageByDeliveryProblem);
 
 export default routes;

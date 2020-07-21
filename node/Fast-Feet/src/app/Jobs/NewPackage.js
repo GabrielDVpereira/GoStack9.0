@@ -6,7 +6,7 @@ class NewPackage {
     return 'NewPackage';
   }
 
-  async jobAction({data: packageInfo}) {
+  async jobAction({ data: packageInfo }) {
     const { deliveryman, recipient } = packageInfo;
     await Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,

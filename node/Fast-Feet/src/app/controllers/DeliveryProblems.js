@@ -1,5 +1,9 @@
+import moment from 'moment-timezone';
 import DeliveryProblems from '../models/DeliveryProblems';
 import Package from '../models/Package';
+import Deliveryman from '../models/Deliveryman';
+import Queue from '../ExternalServices/Queue';
+import CancelPackageJob from '../Jobs/CancelPackage';
 
 class DeliveryProblemsController {
   async index(req, res) {
@@ -12,12 +16,12 @@ class DeliveryProblemsController {
     return res.json({ deliveries });
   }
 
-  async indexByDelivery(req, res) {
-    const { delivery_id } = req.params;
+  async indexByPackage(req, res) {
+    const { package_id } = req.params;
     const { page = 1 } = req.query;
 
     const deliveries = await DeliveryProblems.findAll({
-      where: { id: delivery_id },
+      where: { package_id },
       limit: 20,
       offset: (page - 1) * 20,
     });
@@ -43,12 +47,28 @@ class DeliveryProblemsController {
         },
       ],
     });
+    const { package: pack } = problems;
 
-    /**
-     * Cancel package
-     * Send email
-     */
-    return res.json(problems);
+    if (pack.canceled_at) {
+      res.status(400).json({ message: 'This package has alredy been canceled' });
+    }
+
+    const packToCancel = await Package.findByPk(pack.id, {
+      include: [
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
+    const cancelDate = moment().tz('America/Sao_Paulo').format();
+
+    await packToCancel.update({ canceled_at: cancelDate });
+
+    await Queue.add(CancelPackageJob.jobKey, { pack: packToCancel });
+
+    return res.json({ packToCancel });
   }
 }
 
