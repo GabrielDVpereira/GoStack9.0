@@ -9,12 +9,17 @@ import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliveryController';
 import PackageController from './app/controllers/PackageController';
 import DeliveryProblemsController from './app/controllers/DeliveryProblems';
+import UserController from './app/controllers/UserController';
 
 const upload = multer(multerConfig);
 const routes = express.Router();
 
+
 routes.post('/auth', ValidationMiddleware.auth, SessionController.auth);
+routes.post('/user/create', UserController.crete);
+
 routes.use(AuthMiddleware);
+routes.get('/users', UserController.index);
 routes.post('/recipient', ValidationMiddleware.createRecipient, RecipientController.create);
 routes.get('/recipient', RecipientController.index);
 routes.put('/recipient/:id', ValidationMiddleware.createRecipient, RecipientController.update);

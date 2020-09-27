@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '../env';
 
 export default {
   host: process.env.MAIL_HOST,

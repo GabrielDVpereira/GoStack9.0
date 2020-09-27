@@ -1,9 +1,10 @@
+import './env';
 import express from 'express';
 import { resolve } from 'path';
 import routes from './routes';
 import meta from './app/middlewares/meta';
 import './database';
-import 'dotenv/config';
+
 
 class App {
   constructor() {
