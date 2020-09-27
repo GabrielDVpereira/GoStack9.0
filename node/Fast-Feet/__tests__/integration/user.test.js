@@ -1,26 +1,33 @@
 /* eslint-disable no-undef */
 import request from 'supertest';
 import app from '../../src/app';
+import trucate from '../util/truncate';
+import factory from '../factories';
 
 
 describe('User', () => {
+  beforeEach(async () => {
+    await trucate();
+  });
   it('should create a new user', async () => {
+    const user = await factory.attrs('User');
+
+
     const response = await request(app).post('/user/create').send({
-      name: 'Gabriel Davi',
-      email: 'gabriel10@teste.com',
-      password: '123456',
+      name: user.name,
+      email: user.email,
+      password: user.password,
     });
     expect(response.body).toHaveProperty('id');
   });
   it('should autenticate user', async () => {
+    const user = await factory.create('User');
+
     const response = await request(app).post('/auth').send({
-      email: 'gabriel10@teste.com',
-      password: '123456',
+      email: user.email,
+      password: user.password,
     });
 
     expect(response.body).toHaveProperty('token');
-  });
-  it('test', () => {
-    expect(1 + 1).toBe(2);
   });
 });
