@@ -28,7 +28,7 @@
     "bcrypt": "^4.0.1",
     "bee-queue": "^1.2.3",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-handlebars": "^5.0.0",
     "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
